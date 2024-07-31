@@ -19,57 +19,84 @@ import com.opencsv.CSVWriter;
 @Service
 public class WithdrawalService {
 
-    private WithdrawalRepository _withdrawalRepo;
-    private InvestorRepository _investorRepository;
-    private ProductRepository _productRepo;
+    private WithdrawalRepository withdrawalRepo;
+    private InvestorRepository investorRepository;
+    private ProductRepository productRepo;
 
+    /**
+     * Constructor-based dependency injection for the repositories.
+     *
+     * @param withdrawalRepo     The repository for handling Withdrawal data operations.
+     * @param productRepository  The repository for handling Product data operations.
+     * @param investorRepository The repository for handling Investor data operations.
+     */
     @Autowired
     public WithdrawalService(WithdrawalRepository withdrawalRepo,
-                             ProductRepository productRepository, InvestorRepository investorRepository){
-        this._withdrawalRepo = withdrawalRepo;
-        this._investorRepository = investorRepository;
-        this._productRepo = productRepository;
+                             ProductRepository productRepository, InvestorRepository investorRepository) {
+        this.withdrawalRepo = withdrawalRepo;
+        this.investorRepository = investorRepository;
+        this.productRepo = productRepository;
     }
 
-    public List<Withdrawal> createWithdrawal(CreateWithdrawalDto withdrawal){
+    /**
+     * Creates a new withdrawal record and associates it with an investor and a product.
+     *
+     * @param withdrawal The DTO containing data to create a new Withdrawal.
+     * @return A list of all withdrawal records.
+     */
+    public List<Withdrawal> createWithdrawal(CreateWithdrawalDto withdrawal) {
+        // Fetching the investor associated with the withdrawal
+        Investor invest = this.investorRepository.findById(withdrawal.getInvestor_id()).orElseThrow(
+                () -> new IllegalArgumentException("Invalid investor ID: " + withdrawal.getInvestor_id()));
 
-        Investor invest = this._investorRepository.findById(withdrawal.investor_id).get();
+        // Fetching the product associated with the withdrawal
+        Product product = this.productRepo.findById(withdrawal.getProduct_id()).orElseThrow(
+                () -> new IllegalArgumentException("Invalid product ID: " + withdrawal.getProduct_id()));
 
-        Product product = this._productRepo.findById(withdrawal.product_id).get();
-
+        // Creating a new Withdrawal instance and setting its properties
         Withdrawal w = new Withdrawal();
-        w.setAmount(withdrawal.amount);
-        w.setAccountNumber(withdrawal.accountNumber);
-
+        w.setAmount(withdrawal.getAmount());
+        w.setAccountNumber(withdrawal.getAccountNumber());
         w.setInvestor(invest);
         w.setProduct(product);
 
-        this._withdrawalRepo.save(w);
-        List<Withdrawal> list = this._withdrawalRepo.findAll();
-        return list;
-
+        // Saving the new withdrawal record
+        this.withdrawalRepo.save(w);
+        // Returning the list of all withdrawals
+        return this.withdrawalRepo.findAll();
     }
 
-    public void writeProductsToCsv(long productId,String filePath) {
+    /**
+     * Writes product details and associated withdrawals to a CSV file.
+     *
+     * @param productId The ID of the product to write data for.
+     * @param filePath  The file path to write the CSV to.
+     */
+    public void writeProductsToCsv(long productId, String filePath) {
         try (CSVWriter writer = new CSVWriter(new FileWriter(filePath))) {
-            // Write header
-            String[] header = {"ID", "Product Name", "Investor", "Account Number", "Price", "Created By" };
+            // Write header to the CSV file
+            String[] header = {"ID", "Product Name", "Investor", "Account Number", "Amount", "Created Date"};
             writer.writeNext(header);
-            Product products = this._productRepo.findById(productId).get();
 
-            // Write data
-            for (Withdrawal withdrawal : products.getWithdrawals()) {
-                String[] data = {withdrawal.getId().toString(), withdrawal.getProduct().getProductName(),
+            // Fetch the product by ID
+            Product product = this.productRepo.findById(productId).orElseThrow(
+                    () -> new IllegalArgumentException("Invalid product ID: " + productId));
+
+            // Write each associated withdrawal's details to the CSV
+            for (Withdrawal withdrawal : product.getWithdrawals()) {
+                String[] data = {
+                        withdrawal.getId().toString(),
+                        withdrawal.getProduct().getProductName(),
                         withdrawal.getInvestor().getInvestorName(),
-                        withdrawal.getAccountNumber() , withdrawal.getAmount() + "", withdrawal.getCreatedDate().toString()
-
+                        withdrawal.getAccountNumber(),
+                        String.valueOf(withdrawal.getAmount()),
+                        withdrawal.getCreatedDate().toString()
                 };
                 writer.writeNext(data);
             }
         } catch (IOException e) {
+            // Handle potential I/O exceptions
             e.printStackTrace();
         }
     }
-
-
 }

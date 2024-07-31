@@ -1,22 +1,23 @@
-package com.enviro.assessment.grad001;
+package com.enviro.assessment.grad001.swelihlekhuzwayo.investors;
 
-import java.time.LocalDate;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.enviro.assessment.grad001.swelihlekhuzwayo.investors.Entities.Investor;
-import com.enviro.assessment.grad001.swelihlekhuzwayo.investors.Repositories.InvestorRepository;
-
+/**
+ * Main application class for the Investors Management System.
+ *
+ * This class is the entry point for the Spring Boot application. It contains
+ * the main method which launches the application.
+ */
 @SpringBootApplication
 public class InvestorsApplication {
 
-    @Autowired
-    // static InvestorRepository investorRepository;
+    /**
+     * Main method to run the Spring Boot application.
+     *
+     * @param args Command-line arguments (not used).
+     */
     public static void main(String[] args) {
-
         SpringApplication.run(InvestorsApplication.class, args);
     }
-
 }
