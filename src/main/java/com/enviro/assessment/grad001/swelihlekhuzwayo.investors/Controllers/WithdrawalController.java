@@ -1,7 +1,6 @@
 package com.enviro.assessment.grad001.swelihlekhuzwayo.investors.Controllers;
 
 
-package com.enviro.assessment.grad001.bonolo.investors.Controllers;
 
 import java.util.List;
 
@@ -13,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.enviro.assessment.grad001.Dto.CreateWithdrawalDto;
-import com.enviro.assessment.grad001.bonolo.investors.Entities.Investor;
-import com.enviro.assessment.grad001.bonolo.investors.Entities.Withdrawal;
-import com.enviro.assessment.grad001.bonolo.investors.Services.InvestorService;
-import com.enviro.assessment.grad001.bonolo.investors.Services.WithdrawalService;
+import com.enviro.assessment.grad001.swelihlekhuzwayo.investors.Entities.Investor;
+import com.enviro.assessment.grad001.swelihlekhuzwayo.investors.Entities.Withdrawal;
+import com.enviro.assessment.grad001.swelihlekhuzwayo.investors.Services.InvestorService;
+import com.enviro.assessment.grad001.swelihlekhuzwayo.investors.Services.WithdrawalService;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
