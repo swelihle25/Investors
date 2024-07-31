@@ -16,10 +16,17 @@ public class InvestorService {
 
     private final InvestorRepository investorRepo;
 
+    /**
+     * Constructor-based dependency injection for InvestorRepository.
+     * Initializes the service and optionally pre-populates some test data.
+     *
+     * @param investorRepository The repository handling Investor data operations.
+     */
     @Autowired
     public InvestorService(InvestorRepository investorRepository) {
         this.investorRepo = investorRepository;
 
+        // Sample data for demonstration purposes
         Investor investor1 = new Investor();
         investor1.setInvestorName("John");
         investor1.setInvestorSurname("Doe");
@@ -27,7 +34,6 @@ public class InvestorService {
         investor1.setDateOfBirth(LocalDate.of(1990, 5, 15));
         investor1.setAddress("123 Main Street");
         investor1.setAge(31);
-
         investorRepo.save(investor1);
 
         Investor investor2 = new Investor();
@@ -40,6 +46,12 @@ public class InvestorService {
         investorRepo.save(investor2);
     }
 
+    /**
+     * Retrieves all investors from the repository.
+     *
+     * @return A list of all investors.
+     * @throws Exception If there is an error during retrieval.
+     */
     public List<Investor> getAllInvestors() throws Exception {
         try {
             List<Investor> investors = new ArrayList<>();
@@ -50,6 +62,13 @@ public class InvestorService {
         }
     }
 
+    /**
+     * Retrieves an investor by their ID.
+     *
+     * @param id The ID of the investor to retrieve.
+     * @return The Investor object if found, otherwise null.
+     * @throws Exception If there is an error during retrieval.
+     */
     public Investor getInvestorById(Long id) throws Exception {
         try {
             Optional<Investor> investor = investorRepo.findById(id);
@@ -59,6 +78,13 @@ public class InvestorService {
         }
     }
 
+    /**
+     * Saves an investor to the repository.
+     *
+     * @param investor The Investor object to be saved.
+     * @return The saved Investor object.
+     * @throws Exception If there is an error during the save operation.
+     */
     public Investor saveInvestor(Investor investor) throws Exception {
         try {
             return investorRepo.save(investor);
@@ -67,6 +93,12 @@ public class InvestorService {
         }
     }
 
+    /**
+     * Deletes an investor by their ID.
+     *
+     * @param id The ID of the investor to delete.
+     * @throws Exception If there is an error during the delete operation.
+     */
     public void deleteInvestor(Long id) throws Exception {
         try {
             investorRepo.deleteById(id);
@@ -75,4 +107,3 @@ public class InvestorService {
         }
     }
 }
-
