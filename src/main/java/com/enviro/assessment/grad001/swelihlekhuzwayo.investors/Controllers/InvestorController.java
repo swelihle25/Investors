@@ -1,12 +1,6 @@
 package com.enviro.assessment.grad001.swelihlekhuzwayo.investors.Controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -52,7 +46,7 @@ public class InvestorController {
     @GetMapping("/{id}")
     public ResponseEntity<Investor> getInvestorById(@PathVariable Long id) {
         try {
-            Investor invest = investorService.getInvestorById(id).get();
+            Investor invest = investorService.getInvestorById(id);
             return new ResponseEntity<>(invest, HttpStatus.OK);
         } catch (Exception e) {
             // TODO: handle exception
@@ -64,7 +58,7 @@ public class InvestorController {
     // Endpoint to create a new investor
 
 
-    public Investor createInvestor(@RequestBody Investor investor) {
+    public Investor createInvestor(@RequestBody Investor investor) throws Exception {
         return investorService.saveInvestor(investor);
     }
 
@@ -82,7 +76,7 @@ public class InvestorController {
 
     // Endpoint to delete an investor
     @DeleteMapping("/{id}")
-    public void deleteInvestor(@PathVariable Long id) {
+    public void deleteInvestor(@PathVariable Long id) throws Exception {
         investorService.deleteInvestor(id);
     }
 }

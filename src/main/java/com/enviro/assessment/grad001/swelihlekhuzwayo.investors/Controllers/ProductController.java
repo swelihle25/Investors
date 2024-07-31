@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.enviro.assessment.grad001.bonolo.investors.Entities.Investor;
-import com.enviro.assessment.grad001.bonolo.investors.Entities.Product;
-import com.enviro.assessment.grad001.bonolo.investors.Services.ProductService;
+import com.enviro.assessment.grad001.swelihlekhuzwayo.investors.Entities.Investor;
+import com.enviro.assessment.grad001.swelihlekhuzwayo.investors.Entities.Product;
+import com.enviro.assessment.grad001.swelihlekhuzwayo.investors.Services.ProductService;
 
 @RestController
 @RequestMapping("/api/products")
